@@ -1,2 +1,2 @@
 # crawler
-A simple Node.js , jQuery demo about relative keyword searching using Elasticsearch , sigma.js.
+A simple jQuery demo about relative keyword searching using Elasticsearch , drawing chart with sigma.js.
