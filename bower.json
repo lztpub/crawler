@@ -1,0 +1,9 @@
+{
+  "name": "jquery",
+  "private": true,
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "modernizr": "~2.8.1",
+    "sigma": "~1.0.3"
+  }
+}

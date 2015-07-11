@@ -1,0 +1,25 @@
+<div class="fill-vertical">
+  <div class="fill-vertical">
+    <div class="app-container" id="dashboard_blurdiv">
+
+      <input type="text" id="keyword" class="text keywordInput"></input>
+      <button id="btnFetchKeys" class="button keyButton">関連キー探す</button>
+      <div>
+        <span>関連キー:（マウスクリックにより選択ください）</span>
+        <div id="divRelative" class="relativeKey"></div>
+      </div>
+      <button id="btnFinalSearch" class="button">検索</button>
+      <div class="sigmaCanvas" id="divSigma"></div>
+      <div id="expandBtn" >
+        <button id="btnExpand" class="button">拡張</button>
+      </div>
+      <div id="resultCount" class="resultCount"></div>
+      <div id="resultWindow" class="resultWindow"></div>
+  </div>
+</div>
+<script>
+  $(document).ready(function(){
+    var dc = new DashboardController();
+    dc.init();
+  });
+</script>
