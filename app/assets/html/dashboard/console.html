@@ -1,0 +1,37 @@
+<div class="fill-vertical">
+
+  <div class="hostlist" id="hostlist">
+  </div>
+
+  <div class="hostview" id="hostview">
+    <div class="crawlstats" id="crawlstats">
+    </div>
+    <div class="domains" id="domains">
+    </div>
+    <div class="editDomainDiv" id="editDomainDiv">
+      <input class="editDomain" id="editDomain" type="text"/>
+      <button class="applyDomain" id="applyDomain" >追加</button>
+      <button class="applyDomain" id="deleteDomain" >削除</button>
+      <button class="modifyDomain" id="confirmDomains" >確定</button>
+      <span class="editTopNLabel">最大件数：</span>
+      <input class="editTopN" id="editTopN" type="text"/>
+      <button class="applyDomain" id="startCrawl" >作業開始</button>
+    </div>
+    <div class="progress" id="progress">
+    </div>
+    <div class="divcompare" id="divcompare">
+      作業前Index件数:<div class="divbefore" id="divbefore">
+      1000
+      </div>
+      作業後Index件数:<div class="divafter" id="divafter">
+      1500
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function(){
+    var dc = new ConsoleController();
+    dc.init();
+  });
+</script>

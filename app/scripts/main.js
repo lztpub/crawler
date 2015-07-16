@@ -22,7 +22,7 @@ var RootScope = function () {
 };
 
 $(document).ready(function(){
-  $('#root').load("assets/html/dashboard/dashboard.html", function() {
+  $('#root').load("assets/html/dashboard/top.html", function() {
     console.log("load dashboard");
   });
 });

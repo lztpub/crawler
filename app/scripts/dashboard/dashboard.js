@@ -25,6 +25,8 @@ function DashboardController() {
     this.normalColor = '#ec5148';
     this.selectedColor = '#00FF00';
     this.endColor = '#DDDDDD';
+
+    this.savedResult = { };
 }
 
 DashboardController.prototype.onOverNode = function(eventData) {
@@ -113,6 +115,34 @@ DashboardController.prototype.onClickNode = function(eventData) {
     }
 
 };
+    
+DashboardController.prototype.save = function () {
+ var self = this;
+ self.savedResult = { nodes: self.SigmaGraph.graph.nodes(),
+     edges: self.SigmaGraph.graph.edges(),
+     selected: this.selectedNodes,
+     keyword: this.keyword};
+};
+
+DashboardController.prototype.load = function () {
+  var self = this;
+  self.SigmaGraph.graph.clear();
+  $.each(self.savedResult.nodes, function (index, node) {
+    self.SigmaGraph.graph.addNode(node);
+  });
+
+  $.each(self.savedResult.edges, function (index, edge) {
+    self.SigmaGraph.graph.addEdge(edge);
+  });
+
+  self.selectedNodes = self.savedResult.selected;
+  self.dispRelatives();
+
+  self.keyword = self.savedResult.keyword;
+  $('#keyword').val(self.keyword);
+
+  self.SigmaGraph.refresh();
+};
 
 DashboardController.prototype.init = function() {
     var self = this;
@@ -168,10 +198,12 @@ DashboardController.prototype.init = function() {
 
       $('#resultWindow').empty();
       $('#resultCount').empty();
+      $("#siteWindow").empty();
+      $('#siteCount').empty();
 
       self.getResults(keys).success(function(data){
 
-        $('#resultCount').text( "検索結果：　" + data.hits.total + "件。　（下記はTop10）");
+        $('#resultCount').text( "検索結果：" + data.hits.total + "件。（下記は関連度Top10）");
 
         var hits = data.hits.hits;
 
@@ -179,7 +211,12 @@ DashboardController.prototype.init = function() {
         $.template("resultList", markup);
 
         var resultList = [];
-        $.each(hits, function(idx, result){
+        for (var j = 0; j < hits.length; j++) {
+          var result = hits[j];
+      
+          if (j >= 10){
+            break;
+          }
           var resultItem = {};
           resultItem.url = result._id;
           resultItem.summary = "";
@@ -190,9 +227,20 @@ DashboardController.prototype.init = function() {
           };
 
           resultList.push(resultItem);
-        });
+        };
 
         $.tmpl("resultList", resultList).appendTo("#resultWindow");
+
+        self.getScores(keys).success(function(_data){
+
+          var sites = self.getTop(10, _data.hits.hits);
+
+          if (!(sites instanceof Array) || sites.length < 1) { return; }
+          var markup = "<div class='siteItem'><a href='${url}' target='_blank_'>${url}</a><span>Score:${score}</span></div>";
+          $.template("siteList", markup);
+          $.tmpl("siteList", sites).appendTo("#siteWindow");
+          $('#siteCount').text( "関連サイト：" + sites.length + "個。（下記は関連度Top10）");
+        });
 
       });
 
@@ -205,7 +253,102 @@ DashboardController.prototype.init = function() {
     $('#expandBtn').css('position','absolute');
     $('#expandBtn').hide();
 
+    $('#switchBtn').on("click", function(e) {
+      if ($('#switchBtn')[0].className==='switchBtn'){
+        $('#switchBtn')[0].className='switchBtnAlt';
+        $('#topdiv')[0].className='app-container row row-100 horizontal-slider slide-100';
+      }else{
+        $('#switchBtn')[0].className='switchBtn';
+        $('#topdiv')[0].className='app-container row row-100 horizontal-slider';
+      }
+    });
+
+    $('#btnSave').on("click", function(e) {
+      self.save();
+    });
+
+    $('#btnLoad').on("click", function(e) {
+      self.load();
+    });
 };
+
+DashboardController.prototype.getTop = function (top, array) {
+    var self = this;
+
+    if (!(array instanceof Array)) { return; }
+    array.sort(function (left, right) {
+        return left._id == right._id ? 0 : (left._id < right._id ? -1 : 1);
+    });
+    var result = [];
+    var url = self.getWebsiteName(array[0]._id);
+    var urlTemp = '';
+    var score = 0;
+    var controlResult = function () {
+        var scoreRnd = Math.round(score * 1000)/1000;
+        if (result.length < top) {
+            result.push({ url: url, score: scoreRnd });
+            if (result.length === top) {
+                result.sort(function (left, right) {
+                    return left.score == right.score ? 0 : (left.score < right.score ? 1 : -1);
+                });
+            }
+        } else {
+            self.insertData(result, url, scoreRnd);
+        }
+    };
+    $.each(array, function (index, data) {
+        urlTemp = self.getWebsiteName(data._id);
+        if (url === urlTemp) {
+            if (data._score > 0) { score += data._score; }
+        } else {
+            controlResult();
+            url = urlTemp;
+            score = data._score;
+        }
+    });
+    controlResult();
+    if (result.length < top) {
+        result.sort(function (left, right) {
+            return left.score == right.score ? 0 : (left.score < right.score ? 1 : -1);
+        });
+    }
+    return result;
+}
+
+DashboardController.prototype.getWebsiteName = function (url) {
+    var matches = /(http|https):\/\/([a-z0-9]*\.)*[a-z0-9]+(:[0-9]{1,4})?\//.exec(url);
+    if (matches instanceof Array && matches.length > 0) { return matches[0]; }
+    return '';
+}
+
+DashboardController.prototype.insertData = function (array, url, score) {
+    if (!(array instanceof Array) || array.length < 1) { return; }
+    var _index = -1;
+    var object = array[0];
+    if (object.score >= score) { return; }
+    $.each(array, function (index, data) {
+        if (score > data.score)
+        { _index = index; }
+    });
+    if (_index == 0) {
+        object.url = url;
+        object.score = score;
+        return;
+    }
+    var urlTemp = '';
+    var scoreTemp = 0;
+    for (i = _index ; i > 0 ; i--) {
+        object = array[i];
+        urlTemp = object.url;
+        scoreTemp = object.score;
+        object = array[i - 1];
+        object.url = urlTemp;
+        object.score = scoreTemp;
+    }
+    object = array[_index];
+    object.url = url;
+    object.score = score;
+}
 
 DashboardController.prototype.onMouseMove = function(eventData) {
     var self = this;
@@ -300,6 +443,17 @@ DashboardController.prototype.getResults = function(keywords) {
       data:'{"query": {"terms" : { "content" : ' + JSON.stringify(keywords) + '} }, '+
           '"size": 10, ' +
           '"highlight" : {"fields" : {"content" : {}}}}'
+    });
+};
+
+DashboardController.prototype.getScores = function(keywords) {
+    var self = this;
+
+    return RestManagerSingleton.getInstance().send({
+      method:'POST',
+      url:'http://52.8.222.228:9200/demo/_search?pretty=true ',
+      data:'{"fields":["id","score"], "query": {"terms" : { "content" : ' + JSON.stringify(keywords) + '} }, '+
+          '"size": 1000 }'
     });
 };
 
