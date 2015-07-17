@@ -253,14 +253,8 @@ DashboardController.prototype.init = function() {
     $('#expandBtn').css('position','absolute');
     $('#expandBtn').hide();
 
-    $('#switchBtn').on("click", function(e) {
-      if ($('#switchBtn')[0].className==='switchBtn'){
-        $('#switchBtn')[0].className='switchBtnAlt';
-        $('#topdiv')[0].className='app-container row row-100 horizontal-slider slide-100';
-      }else{
-        $('#switchBtn')[0].className='switchBtn';
-        $('#topdiv')[0].className='app-container row row-100 horizontal-slider';
-      }
+    $('#switchBtnL').on("click", function(e) {
+      $('#topdiv')[0].className='app-container row row-100 horizontal-slider slide-100';
     });
 
     $('#btnSave').on("click", function(e) {

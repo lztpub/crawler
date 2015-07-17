@@ -21,7 +21,7 @@ function ConsoleController() {
     }];
 
     this.addDomainMsg = '＜ドメインを追加する＞';
-    this.apServer = 'localhost:6600';
+    this.apServer = '52.8.36.62:6600';
     this.max_disp_lines = 1000;
     this.esServer = '52.8.222.228:9200';
 }
@@ -68,7 +68,8 @@ ConsoleController.prototype.init = function() {
     self.search();
   });
 
-  $('#editDomainDiv').hide();
+  $('#editDomainDiv1').hide();
+  $('#editDomainDiv2').hide();
   $('#crawlstats').hide();
   $('#domains').hide();
   $('#divcompare').hide();
@@ -77,6 +78,10 @@ ConsoleController.prototype.init = function() {
   $('#editDomain').val('');
   // default number for demo
   $('#editTopN').val(20);
+
+  $('#switchBtnR').on("click", function(e) {
+    $('#topdiv')[0].className='app-container row row-100 horizontal-slider';  
+  });
 };
 
 ConsoleController.prototype.checkStatus = function(host) {
@@ -114,7 +119,8 @@ ConsoleController.prototype.getStatics = function(host) {
 
     if (JSON.parse(data).status != "error"){
 
-      $('#editDomainDiv').show();
+      $('#editDomainDiv1').show();
+      $('#editDomainDiv2').show();
       $('#crawlstats').show();
       $('#domains').show();
       $('#divcompare').show();

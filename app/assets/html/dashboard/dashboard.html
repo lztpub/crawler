@@ -1,24 +1,53 @@
-  <div class="col col-50 col-node" id="dashboard_blurdiv">
+<div class="col col-85" id="dashboard_blurdiv">
+  <div class="row row-100">
+    
+    <div class="col col-40">
+      <div class="row row-5">
+        <input type="text" id="keyword" class="text keywordInput"/>
+        <button id="btnFetchKeys" class="button keyButton">関連キー探す</button>
+        <button id="btnSave" class="button keyButton">Save</button>
+        <button id="btnLoad" class="button keyButton">Load</button>
 
-    <input type="text" id="keyword" class="text keywordInput"/>
-    <button id="btnFetchKeys" class="button keyButton">関連キー探す</button>
-    <button id="btnSave" class="button keyButton">Save</button>
-    <button id="btnLoad" class="button keyButton">Load</button>
-    <div>
-      <span>関連キー:（マウスクリックにより選択ください）</span>
-      <div id="divRelative" class="relativeKey"></div>
+      </div>
+      <div class="row row-5">
+        <div class="col col-100">
+          <div class="row row-50">
+            <span>関連キー:（マウスクリックにより選択ください）</span>
+          </div>
+          <div class="row row-50">
+            <div id="divRelative" class="relativeKey"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row row-5">
+        <button id="btnFinalSearch" class="button">検索</button>
+      </div>
+      <div class="row row-85">
+        <div class="sigmaCanvas" id="divSigma"></div>
+      </div>
+
     </div>
-    <button id="btnFinalSearch" class="button">検索</button>
-    <div class="sigmaCanvas" id="divSigma"></div>
-    <div id="expandBtn" >
-      <button id="btnExpand" class="button">拡張</button>
+    <div class="col col-50">
+      <div class="row row-65">
+        <div id="resultCount" class="resultCount"></div>
+        <div id="resultWindow" class="resultWindow"></div>
+      </div>
+      <div class="row row-35">
+        <div id="siteCount" class="siteCount"></div>
+        <div id="siteWindow" class="siteWindow"></div>
+      </div>
+
     </div>
-    <div id="resultCount" class="resultCount"></div>
-    <div id="resultWindow" class="resultWindow"></div>
-    <div id="siteCount" class="siteCount"></div>
-    <div id="siteWindow" class="siteWindow"></div>
+    <div class="col col-10">
+      <button class="switchBtn" id="switchBtnL">切替</button>
+    </div>
   </div>
-<button class="switchBtn" id="switchBtn">切替</button>
+
+  <div id="expandBtn" >
+    <button id="btnExpand" class="button">拡張</button>
+  </div>
+</div>
+
 <script>
   $(document).ready(function(){
     var dc = new DashboardController();

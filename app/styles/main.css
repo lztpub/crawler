@@ -151,20 +151,13 @@ a{
 }
 
 .crawlstats{
-  float: right;
   padding: 3px;
   border: 1px solid green;
-  height: 250px;
-  width: 270px;
 }
 
 .domains{
   padding: 3px;
-  float: left;
-  overflow: auto;
   border: 1px solid white;
-  height: 250px;
-  width: 320px;
 }
 
 .crawlstat{
@@ -238,31 +231,17 @@ a{
 }
 
 .hostlist{
-  top:3px;
-  position:absolute;
-  width:400px;
-  height:500px;
-  display: block;  
   overflow: auto;
   border: 0px;
+  float: left;
 }
 
 .hostview{
-  top:5px;
-  left:1650px;
-  position:absolute;
-  width:600px;
-  height:500px;
-  display: block;  
-  overflow: auto;
   border: 1px solid yellow;
 }
 
 .progress{
-  padding: 5px;
-  float: left;
-  width: 500px;
-  height: 100px;
+  padding: 5px; 
   vertical-align: center;
 }
 .progressItem{
@@ -270,13 +249,12 @@ a{
   text-align: center;
   padding: 5px;
   float: left;
-  width: 70px;
+  width: 80px;
   vertical-align: center;
 }
 
 .divcompare{
   float: left;
-  width: 300px;
 }
 
 .divbefore{
@@ -288,17 +266,6 @@ a{
 }
 
 .switchBtn{
-  top:5px;
-  left:1025px;
-  position:absolute;
-  display: block;  
   border: 1px solid yellow;
 }
 
-.switchBtnAlt{
-  top:5px;
-  left:2250px;
-  position:absolute;
-  display: block;  
-  border: 1px solid yellow;
-}
