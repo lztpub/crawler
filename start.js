@@ -1,3 +1,6 @@
+/**
+ * Created by xukai on 7/14/15.
+ */
 var server = require("./server/server");
 var router = require("./server/router");
 var controller = require("./server/controller");

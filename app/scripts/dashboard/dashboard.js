@@ -1,7 +1,9 @@
 /**
- * Created by lijia on 3/12/15.
+ * Created by xukai on 7/2/15.
  */
 function DashboardController() {
+
+    this.elastichost = "localhost";
 
     this.keyword = "";
     this.hoveredNode = undefined;
@@ -433,7 +435,7 @@ DashboardController.prototype.getResults = function(keywords) {
 
     return RestManagerSingleton.getInstance().send({
       method:'POST',
-      url:'http://52.8.222.228:9200/demo/_search?pretty=true ',
+      url:'http://'+self.elastichost+':9200/demo/_search?pretty=true ',
       data:'{"query": {"terms" : { "content" : ' + JSON.stringify(keywords) + '} }, '+
           '"size": 10, ' +
           '"highlight" : {"fields" : {"content" : {}}}}'
@@ -445,7 +447,7 @@ DashboardController.prototype.getScores = function(keywords) {
 
     return RestManagerSingleton.getInstance().send({
       method:'POST',
-      url:'http://52.8.222.228:9200/demo/_search?pretty=true ',
+      url:'http://'+self.elastichost+':9200/demo/_search?pretty=true ',
       data:'{"fields":["id","score"], "query": {"terms" : { "content" : ' + JSON.stringify(keywords) + '} }, '+
           '"size": 1000 }'
     });
@@ -455,7 +457,7 @@ DashboardController.prototype.getTerms = function(keyword) {
     var self = this;
     return RestManagerSingleton.getInstance().send({
       method:'POST',
-      url:'http://52.8.222.228:9200/demo/_search?search_type=count&pretty=true ',
+      url:'http://'+self.elastichost+':9200/demo/_search?search_type=count&pretty=true ',
       data:'{"query": {"term" : { "content" : "' + keyword + '"} }, '+
           '"size": 0, '+
           '"aggs": { '+

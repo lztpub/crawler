@@ -1,3 +1,6 @@
+/**
+ * Created by xukai on 7/14/15.
+ */
 function route(map, pathname, response, postData) {
 	if (typeof map[pathname] === 'function') {
 		map[pathname](response, postData);

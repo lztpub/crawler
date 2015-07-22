@@ -3,15 +3,13 @@
  */
 function ConsoleController() {
 
+  this.apServer = 'localhost:6600';
+  this.esServer = 'localhost:9200';
+
   this.hosts=[
     {
-      "host":"52.8.90.3",
+      "host":"localhost",
       "name":"Nutch_01",
-      "status":"Unchecked"
-    },
-    {
-      "host":"52.8.208.245",
-      "name":"Nutch_02",
       "status":"Unchecked"
     },
     {
@@ -20,10 +18,8 @@ function ConsoleController() {
       "status":"Unchecked"
     }];
 
-    this.addDomainMsg = '＜ドメインを追加する＞';
-    this.apServer = '52.8.36.62:6600';
-    this.max_disp_lines = 1000;
-    this.esServer = '52.8.222.228:9200';
+  this.addDomainMsg = '＜ドメインを追加する＞';
+  this.max_disp_lines = 1000;
 }
 
 ConsoleController.prototype.init = function() {

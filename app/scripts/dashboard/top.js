@@ -1,3 +1,6 @@
+/**
+ * Created by xukai on 7/12/15.
+ */
 function TopController() {
 };
 

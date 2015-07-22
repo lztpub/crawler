@@ -1,3 +1,6 @@
+/**
+ * Created by xukai on 7/14/15.
+ */
 var querystring = require("querystring");
 var Client = require('ssh2').Client;
 var self = this;
@@ -6,6 +9,7 @@ var running = false;
 var max_return_lines = 100;
 var max_stored_lines = 1000;
 var progress = {};
+var keypath = "/Users/xukai/aws/ubkeypair.pem"
 
 
 function getStage(maxFetch) {
@@ -122,7 +126,7 @@ function check(response, postData) {
     host: querystring.parse(postData).host,
     port: 22,
     username: 'ubuntu',
-    privateKey: require('fs').readFileSync('/Users/xukai/aws/ubkeypair.pem')
+    privateKey: require('fs').readFileSync(keypath)
   });
 
 }
@@ -190,7 +194,7 @@ function start(response, postData) {
     host: host,
     port: 22,
     username: 'ubuntu',
-    privateKey: require('fs').readFileSync('/Users/xukai/aws/ubkeypair.pem')
+    privateKey: require('fs').readFileSync(keypath)
   });
 }
 
@@ -279,7 +283,7 @@ function stats(response, postData) {
     host: querystring.parse(postData).host,
     port: 22,
     username: 'ubuntu',
-    privateKey: require('fs').readFileSync('/Users/xukai/aws/ubkeypair.pem')
+    privateKey: require('fs').readFileSync(keypath)
   });
 }
 
@@ -346,7 +350,7 @@ function modify(response, postData) {
     host: querystring.parse(postData).host,
     port: 22,
     username: 'ubuntu',
-    privateKey: require('fs').readFileSync('/Users/xukai/aws/ubkeypair.pem')
+    privateKey: require('fs').readFileSync(keypath)
   });
 }
 
